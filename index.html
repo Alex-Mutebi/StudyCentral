@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Central</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      overflow-x: hidden;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .app-container {
+      width: 100%;
+      min-height: 100%;
+      background: #0a0a0a;
+    }
+
+    header {
+      width: 100%;
+      padding: 1.5rem 2rem;
+      background: rgba(20, 20, 20, 0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2a2a;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo {
+      border-radius: 200000px;
+       height: 100px;
+        width: 100px;
+       box-shadow: 0 0 20px white;
+       margin-bottom: auto;
+       position: relative;
+    }
+
+    .site-name {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .tagline {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.875rem;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    nav a:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-section {
+      width: 100%;
+      padding: 4rem 2rem;
+      text-align: center;
+      color: white;
+      background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin: 0 0 1rem 0;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      margin: 0 0 2.5rem 0;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .cta-button {
+      background: white;
+      color: #0a0a0a;
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .content-section {
+      width: 100%;
+      padding: 4rem 2rem;
+      background: #0a0a0a;
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      margin: 0 0 3rem 0;
+    }
+
+    .features-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: #1a1a1a;
+      padding: 2rem;
+      border-radius: 16px;
+      color: white;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      border: 1px solid #2a2a2a;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+      border-color: #3a3a3a;
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .feature-description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+    }
+
+    .subjects-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .subject-card {
+      background: #1a1a1a;
+      padding: 2rem 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: 2px solid #2a2a2a;
+    }
+
+    .subject-card:hover {
+      border-color: white;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .subject-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .subject-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: white;
+      margin: 0;
+    }
+
+    .resource-list {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .resource-item {
+      background: #1a1a1a;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid #2a2a2a;
+      transition: all 0.3s;
+    }
+
+    .resource-item:hover {
+      border-color: #3a3a3a;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .resource-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .resource-icon {
+      font-size: 2rem;
+    }
+
+    .resource-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin: 0;
+    }
+
+    .resource-description {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin: 0 0 1rem 0;
+    }
+
+    .resource-link {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.3s;
+    }
+
+    .resource-link:hover {
+      opacity: 0.8;
+    }
+
+    .ai-assistant-section {
+      width: 100%;
+      padding: 4rem 2rem;
+      background: #0a0a0a;
+      color: white;
+    }
+
+    .assistant-container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .assistant-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+    }
+
+    .assistant-description {
+      font-size: 1.125rem;
+      margin: 0 0 2rem 0;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .chat-demo {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid #2a2a2a;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .chat-messages {
+      margin-bottom: 1.5rem;
+      text-align: left;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-messages::-webkit-scrollbar-track {
+      background: #0a0a0a;
+      border-radius: 4px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: #3a3a3a;
+      border-radius: 4px;
+    }
+
+    .chat-message {
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .user-message {
+      background: #2a2a2a;
+      margin-left: 2rem;
+      color: white;
+    }
+
+    .ai-message {
+      background: #0a0a0a;
+      margin-right: 2rem;
+      color: rgba(255, 255, 255, 0.9);
+      border: 1px solid #2a2a2a;
+    }
+
+    .typing-indicator {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: #0a0a0a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      margin-right: 2rem;
+    }
+
+    .typing-indicator.active {
+      display: flex;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.6;
+      }
+      30% {
+        transform: translateY(-10px);
+        opacity: 1;
+      }
+    }
+
+    .chat-input-area {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid #2a2a2a;
+      border-radius: 25px;
+      font-size: 1rem;
+      outline: none;
+      background: #0a0a0a;
+      color: white;
+      transition: border-color 0.3s;
+    }
+
+    .chat-input:focus {
+      border-color: white;
+    }
+
+    .send-button {
+      background: white;
+      color: #0a0a0a;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .send-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .send-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    footer {
+      width: 100%;
+      padding: 2rem;
+      background: #1a1a1a;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      border-top: 1px solid #2a2a2a;
+    }
+
+    .footer-text {
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .features-grid,
+      .subjects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-container">
+   <header>
+    <div class="logo-section">
+     
+     <img class="logo" src="assets/LogicalMinds2.jpg">
+    
+     <div>
+      <h1 class="site-name" id="site-title">Study Central</h1>
+      <p class="tagline" id="tagline">Your AI-Powered Learning Companion</p>
+     </div>
+    </div>
+    <nav><a data-section="home">Home</a> <a data-section="subjects">Subjects</a> <a data-section="resources">Resources</a> <a data-section="ai-assistant">AI Assistant</a>
+    </nav>
+   </header>
+   <main>
+    <section class="hero-section">
+     <h2 class="hero-title" id="hero-title">Master Every Subject</h2>
+     <p class="hero-subtitle" id="hero-subtitle">AI-powered learning tools at your fingertips</p><button class="cta-button" id="cta-button">Start Learning Now</button>
+    </section><!-- Home Section -->
+    <section class="content-section active" id="home-section">
+     <h2 class="section-title">Everything You Need to Excel</h2>
+     <div class="features-grid">
+      <div class="feature-card">
+       <div class="feature-icon">
+        📚
+       </div>
+       <h3 class="feature-title">Comprehensive Notes</h3>
+       <p class="feature-description">Access detailed notes and study materials for all subjects, organized and easy to understand.</p>
+      </div>
+      <div class="feature-card">
+       <div class="feature-icon">
+        ✏️
+       </div>
+       <h3 class="feature-title">Step-by-Step Solutions</h3>
+       <p class="feature-description">Get detailed explanations and solutions to complex problems across all topics.</p>
+      </div>
+      <div class="feature-card">
+       <div class="feature-icon">
+        🔬
+       </div>
+       <h3 class="feature-title">Interactive Experiments</h3>
+       <p class="feature-description">Explore virtual labs and interactive simulations to understand concepts better.</p>
+      </div>
+      <div class="feature-card">
+       <div class="feature-icon">
+        🎥
+       </div>
+       <h3 class="feature-title">Video Tutorials</h3>
+       <p class="feature-description">Watch engaging video lessons that break down difficult concepts into simple steps.</p>
+      </div>
+      <div class="feature-card">
+       <div class="feature-icon">
+        🤖
+       </div>
+       <h3 class="feature-title">AI Assistant</h3>
+       <p class="feature-description">Ask questions anytime and get instant, personalized help from our intelligent AI tutor.</p>
+      </div>
+      <div class="feature-card">
+       <div class="feature-icon">
+        📊
+       </div>
+       <h3 class="feature-title">Progress Tracking</h3>
+       <p class="feature-description">Monitor your learning journey with detailed analytics and personalized recommendations.</p>
+      </div>
+     </div>
+    </section><!-- Subjects Section -->
+    <section class="content-section" id="subjects-section">
+     <h2 class="section-title">Explore All Subjects</h2>
+     <div class="subjects-grid">
+      <div class="subject-card">
+       <div class="subject-icon">
+        🧮
+       </div>
+       <h3 class="subject-name">Mathematics</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        🔬
+       </div>
+       <h3 class="subject-name">Science</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        💻
+       </div>
+       <h3 class="subject-name">Computer Science</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        📖
+       </div>
+       <h3 class="subject-name">English</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        🌍
+       </div>
+       <h3 class="subject-name">Geography</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        🏛️
+       </div>
+       <h3 class="subject-name">History</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        🎨
+       </div>
+       <h3 class="subject-name">Arts</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        🎵
+       </div>
+       <h3 class="subject-name">Music</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        ⚗️
+       </div>
+       <h3 class="subject-name">Chemistry</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        🧬
+       </div>
+       <h3 class="subject-name">Biology</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        ⚛️
+       </div>
+       <h3 class="subject-name">Physics</h3>
+      </div>
+      <div class="subject-card">
+       <div class="subject-icon">
+        🗣️
+       </div>
+       <h3 class="subject-name">Languages</h3>
+      </div>
+     </div>
+    </section><!-- Resources Section -->
+    <section class="content-section" id="resources-section">
+     <h2 class="section-title">Learning Resources</h2>
+     <div class="resource-list">
+      <div class="resource-item">
+       <div class="resource-header">
+        <div class="resource-icon">
+         📚
+        </div>
+        <h3 class="resource-title">Digital Library</h3>
+       </div>
+       <p class="resource-description">Access thousands of textbooks, reference materials, and academic papers across all subjects. Download PDFs, search content, and bookmark your favorites.</p><a href="#" class="resource-link" target="_blank" rel="noopener noreferrer">Explore Library →</a>
+      </div>
+      <div class="resource-item">
+       <div class="resource-header">
+        <div class="resource-icon">
+         🎥
+        </div>
+        <h3 class="resource-title">Video Learning Hub</h3>
+       </div>
+       <p class="resource-description">Comprehensive video tutorials from expert educators. Watch lectures, demonstrations, and step-by-step guides at your own pace with interactive timestamps.</p><a href="#" class="resource-link" target="_blank" rel="noopener noreferrer">Watch Videos →</a>
+      </div>
+      <div class="resource-item">
+       <div class="resource-header">
+        <div class="resource-icon">
+         🔬
+        </div>
+        <h3 class="resource-title">Virtual Labs</h3>
+       </div>
+       <p class="resource-description">Conduct experiments safely online with our virtual laboratory simulations. Practice chemistry reactions, physics experiments, and biology dissections.</p><a href="#" class="resource-link" target="_blank" rel="noopener noreferrer">Start Experimenting →</a>
+      </div>
+      <div class="resource-item">
+       <div class="resource-header">
+        <div class="resource-icon">
+         📝
+        </div>
+        <h3 class="resource-title">Practice Tests</h3>
+       </div>
+       <p class="resource-description">Test your knowledge with thousands of practice questions and mock exams. Get instant feedback and detailed explanations for every answer.</p><a href="#" class="resource-link" target="_blank" rel="noopener noreferrer">Take a Test →</a>
+      </div>
+      <div class="resource-item">
+       <div class="resource-header">
+        <div class="resource-icon">
+         💡
+        </div>
+        <h3 class="resource-title">Study Guides</h3>
+       </div>
+       <p class="resource-description">Downloadable study guides, cheat sheets, and summary notes created by top students and educators. Perfect for exam preparation.</p><a href="#" class="resource-link" target="_blank" rel="noopener noreferrer">Download Guides →</a>
+      </div>
+      <div class="resource-item">
+       <div class="resource-header">
+        <div class="resource-icon">
+         🎯
+        </div>
+        <h3 class="resource-title">Flashcard Decks</h3>
+       </div>
+       <p class="resource-description">Spaced repetition flashcards for memorization and quick review. Create your own decks or use pre-made sets for popular subjects.</p><a href="#" class="resource-link" target="_blank" rel="noopener noreferrer">Study Flashcards →</a>
+      </div>
+      <div class="resource-item">
+       <div class="resource-header">
+        <div class="resource-icon">
+         👥
+        </div>
+        <h3 class="resource-title">Study Groups</h3>
+       </div>
+       <p class="resource-description">Connect with peers in virtual study groups. Collaborate on projects, share notes, and help each other succeed.</p><a href="#" class="resource-link" target="_blank" rel="noopener noreferrer">Join a Group →</a>
+      </div>
+      <div class="resource-item">
+       <div class="resource-header">
+        <div class="resource-icon">
+         🎓
+        </div>
+        <h3 class="resource-title">Expert Tutoring</h3>
+       </div>
+       <p class="resource-description">Schedule one-on-one sessions with subject matter experts. Get personalized help and guidance tailored to your learning needs.</p><a href="#" class="resource-link" target="_blank" rel="noopener noreferrer">Book a Tutor →</a>
+      </div>
+     </div>
+    </section><!-- AI Assistant Section -->
+    <section class="content-section" id="ai-assistant-section">
+     <div class="assistant-container">
+      <h2 class="assistant-title">Meet Your AI Study Buddy</h2>
+      <p class="assistant-description">Ask any question, get instant help, and learn at your own pace with our intelligent AI assistant powered by advanced language models.</p>
+      <div class="chat-demo">
+       <div class="chat-messages" id="chat-messages">
+        <div class="chat-message ai-message">
+         <p style="margin: 0;">👋 Hi! I'm your AI study assistant. I can help with homework, explain concepts, solve problems, and guide you through any subject. What would you like to learn today?</p>
+        </div>
+       </div>
+       <div class="typing-indicator" id="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+       </div>
+       <div class="chat-input-area"><input type="text" class="chat-input" placeholder="Ask me anything about your studies..." id="chat-input"> <button class="send-button" id="send-button">Send</button>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main>
+   <footer>
+    <p class="footer-text">© 2025 Study Central - Empowering Students with AI-Powered Learning. A Logical Minds Project.</p>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      site_title: "Study Central",
+      tagline: "Your AI-Powered Learning Companion",
+      hero_title: "Master Every Subject",
+      hero_subtitle: "AI-powered learning tools at your fingertips",
+      cta_button: "Start Learning Now",
+      background_color: "#0a0a0a",
+      surface_color: "#1a1a1a",
+      text_color: "#ffffff",
+      primary_action_color: "#ffffff",
+      secondary_action_color: "#2a2a2a",
+      font_family: "system-ui",
+      font_size: 16
+    };
+
+    const config = { ...defaultConfig };
+
+    // AI Response Templates
+    const aiResponses = {
+      math: "Great math question! Let me break this down step by step. First, we need to understand the fundamental concept here. Mathematics is all about patterns and logical thinking. Would you like me to show you a specific example or explain the theory?",
+      science: "Excellent science question! This is a fascinating topic. In science, we observe, hypothesize, and experiment. Let me explain this concept clearly with real-world examples. Science helps us understand how the world works!",
+      history: "That's an interesting historical question! History teaches us about past events and their impact on our present. Let me provide you with context and key facts about this period. Understanding history helps us make better decisions today.",
+      programming: "Nice coding question! Programming is about problem-solving and logic. Let me explain the concept and show you how to approach this. Remember, every expert programmer was once a beginner. Practice makes perfect!",
+      general: "That's a great question! I'm here to help you understand this topic thoroughly. Let me explain it in a way that's easy to grasp. Learning is a journey, and I'm here to guide you every step of the way!"
+    };
+
+    function getAIResponse(userMessage) {
+      const msg = userMessage.toLowerCase();
+      
+      if (msg.includes('math') || msg.includes('calculate') || msg.includes('equation') || msg.includes('algebra')) {
+        return aiResponses.math;
+      } else if (msg.includes('science') || msg.includes('physics') || msg.includes('chemistry') || msg.includes('biology') || msg.includes('experiment')) {
+        return aiResponses.science;
+      } else if (msg.includes('history') || msg.includes('historical') || msg.includes('war') || msg.includes('ancient')) {
+        return aiResponses.history;
+      } else if (msg.includes('code') || msg.includes('program') || msg.includes('python') || msg.includes('javascript')) {
+        return aiResponses.programming;
+      } else {
+        return aiResponses.general;
+      }
+    }
+
+    async function onConfigChange(newConfig) {
+      const baseFont = newConfig.font_family || defaultConfig.font_family;
+      const fontSize = newConfig.font_size || defaultConfig.font_size;
+      const baseFontStack = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif';
+
+      document.body.style.fontFamily = `${baseFont}, ${baseFontStack}`;
+      
+      document.getElementById('site-title').textContent = newConfig.site_title || defaultConfig.site_title;
+      document.getElementById('tagline').textContent = newConfig.tagline || defaultConfig.tagline;
+      document.getElementById('hero-title').textContent = newConfig.hero_title || defaultConfig.hero_title;
+      document.getElementById('hero-subtitle').textContent = newConfig.hero_subtitle || defaultConfig.hero_subtitle;
+      document.getElementById('cta-button').textContent = newConfig.cta_button || defaultConfig.cta_button;
+
+      const backgroundColor = newConfig.background_color || defaultConfig.background_color;
+      const surfaceColor = newConfig.surface_color || defaultConfig.surface_color;
+      const primaryActionColor = newConfig.primary_action_color || defaultConfig.primary_action_color;
+      
+      document.querySelector('.app-container').style.background = backgroundColor;
+      
+      const featureCards = document.querySelectorAll('.feature-card, .subject-card, .resource-item, .chat-demo');
+      featureCards.forEach(card => {
+        card.style.background = surfaceColor;
+      });
+
+      document.querySelector('.cta-button').style.background = primaryActionColor;
+      document.querySelector('.cta-button').style.color = backgroundColor;
+      
+      document.querySelector('.send-button').style.background = primaryActionColor;
+      document.querySelector('.send-button').style.color = backgroundColor;
+
+      document.querySelector('.hero-title').style.fontSize = `${fontSize * 2.2}px`;
+      document.querySelector('.hero-subtitle').style.fontSize = `${fontSize * 1.1}px`;
+      
+      const sectionTitles = document.querySelectorAll('.section-title');
+      sectionTitles.forEach(title => {
+        title.style.fontSize = `${fontSize * 1.8}px`;
+      });
+      
+      const featureTitles = document.querySelectorAll('.feature-title');
+      featureTitles.forEach(title => {
+        title.style.fontSize = `${fontSize * 1.1}px`;
+      });
+      
+      document.querySelector('.assistant-title').style.fontSize = `${fontSize * 1.8}px`;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["site_title", config.site_title || defaultConfig.site_title],
+        ["tagline", config.tagline || defaultConfig.tagline],
+        ["hero_title", config.hero_title || defaultConfig.hero_title],
+        ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+        ["cta_button", config.cta_button || defaultConfig.cta_button]
+      ]);
+    }
+
+    // Navigation
+    const navLinks = document.querySelectorAll('nav a');
+    const sections = document.querySelectorAll('.content-section');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const sectionName = link.getAttribute('data-section');
+        
+        sections.forEach(section => section.classList.remove('active'));
+        
+        const targetSection = document.getElementById(`${sectionName}-section`);
+        if (targetSection) {
+          targetSection.classList.add('active');
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // CTA Button
+    document.getElementById('cta-button').addEventListener('click', () => {
+      document.getElementById('ai-assistant-section').classList.add('active');
+      sections.forEach(section => {
+        if (section.id !== 'ai-assistant-section') {
+          section.classList.remove('active');
+        }
+      });
+      document.getElementById('ai-assistant-section').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // AI Chat Functionality
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+    const chatMessages = document.getElementById('chat-messages');
+    const typingIndicator = document.getElementById('typing-indicator');
+
+    function addMessage(text, isUser) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `chat-message ${isUser ? 'user-message' : 'ai-message'}`;
+      messageDiv.innerHTML = `<p style="margin: 0;">${text}</p>`;
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendMessage() {
+      const message = chatInput.value.trim();
+      
+      if (message) {
+        addMessage(message, true);
+        chatInput.value = '';
+        sendButton.disabled = true;
+        
+        typingIndicator.classList.add('active');
+        
+        setTimeout(() => {
+          typingIndicator.classList.remove('active');
+          const aiResponse = getAIResponse(message);
+          addMessage(aiResponse, false);
+          sendButton.disabled = false;
+          chatInput.focus();
+        }, 1500);
+      }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a94f6a512307939',t:'MTc2NDk1MjU5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+</html>
